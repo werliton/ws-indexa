@@ -32,12 +32,12 @@ function EditarContato() {
   // Carregar dados do contato atual
   useEffect(() => {
     const contatoAtual = contatos.find(
-      (contato) => contato.id === parseInt(id)
+      (contato) => contato._id === parseInt(id)
     );
     if (contatoAtual) {
       setDadosDoFormulario(contatoAtual);
     }
-  }, [id, contatos]);
+  }, []);
 
   // Atualizar estado do formulário
   const gerenciarMudancaDeInput = (e) => {
