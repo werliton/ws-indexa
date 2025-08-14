@@ -12,6 +12,10 @@ export function useContacts() {
     setContacts(contacts);
   };
 
+  const createContact = async (contact) => {
+    await apiContatos.criar(contact);
+  };
+
   useEffect(() => {
     fetchContacts();
   }, []);
@@ -19,5 +23,6 @@ export function useContacts() {
   return {
     fetchContacts,
     contacts,
+    createContact,
   };
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 
@@ -7,10 +7,13 @@ import Container from "../../components/Container/Container";
 import BotaoVoltar from "../../components/BotaoVoltar/BotaoVoltar";
 import Formulario from "../../components/Formulario/Formulario";
 import Titulo from "../../components/Titulo/Titulo";
-
+import { useContacts } from "../../hooks/useContacts";
 
 function Cadastro() {
   const navigate = useNavigate();
+
+  const { createContact } = useContacts();
+
   const [dadosDoFormulario, setDadosDoFormulario] = useState({
     nome: "",
     telefone: "",
@@ -26,26 +29,27 @@ function Cadastro() {
   };
 
   const handleSubmit = (e) => {
-    console.log("Formulário enviado!");
-  };
+    e.preventDefault();
 
+    createContact(dadosDoFormulario);
+
+    console.log("Formulário enviado!");
+    navigate("/");
+  };
 
   return (
     <Wrapper>
       <Header />
       <Container>
-        <BotaoVoltar/>
+        <BotaoVoltar />
 
-
-        <Titulo>
-        Adicionar contato
-        </Titulo>
+        <Titulo>Adicionar contato</Titulo>
 
         <Formulario
-            dadosDoFormulario={dadosDoFormulario}
-            onChange={handleInputChange}
-            onSubmit={handleSubmit}
-          />
+          dadosDoFormulario={dadosDoFormulario}
+          onChange={handleInputChange}
+          onSubmit={handleSubmit}
+        />
       </Container>
     </Wrapper>
   );
