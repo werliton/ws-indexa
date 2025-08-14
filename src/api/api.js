@@ -1,8 +1,10 @@
-const baseURL = 'http://localhost:3001/contatos';
+const baseURL = "http://localhost:3001/contatos";
 
 function tratarResposta(resposta) {
   if (!resposta.ok) {
-    throw new Error(`Erro na requisição: ${resposta.status} ${resposta.statusText}`);
+    throw new Error(
+      `Erro na requisição: ${resposta.status} ${resposta.statusText}`
+    );
   }
   return resposta.json();
 }
@@ -12,45 +14,45 @@ export const apiContatos = {
     return fetch(baseURL)
       .then(tratarResposta)
       .catch(() => {
-        throw new Error('Erro ao buscar contatos');
+        throw new Error("Erro ao buscar contatos");
       });
   },
 
   criar(contato) {
     return fetch(baseURL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(contato),
     })
       .then(tratarResposta)
       .catch(() => {
-        throw new Error('Erro ao criar contato');
+        throw new Error("Erro ao criar contato");
       });
   },
 
   atualizar(id, contato) {
     return fetch(`${baseURL}/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(contato),
     })
       .then(tratarResposta)
       .catch(() => {
-        throw new Error('Erro ao atualizar contato');
+        throw new Error("Erro ao atualizar contato");
       });
   },
 
   deletar(id) {
     return fetch(`${baseURL}/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
     })
       .then(tratarResposta)
       .catch(() => {
-        throw new Error('Erro ao deletar contato');
+        throw new Error("Erro ao deletar contato");
       });
-  }
+  },
 };

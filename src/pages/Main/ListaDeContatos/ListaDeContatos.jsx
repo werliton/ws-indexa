@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ItemDaLista from "./ItemDaLista/ItemDaLista";
 import styled from "styled-components";
-
+import { useContacts } from "../../../hooks/useContacts";
 
 const ContatoTitulo = styled.h2`
-border-bottom: 1px solid #0d6efd;
-margin-bottom: 16px;
+  border-bottom: 1px solid #0d6efd;
+  margin-bottom: 16px;
 `;
 
 const ContatosWrapper = styled.div`
@@ -15,7 +15,7 @@ const ContatosWrapper = styled.div`
 `;
 
 const ContatoGrupo = styled.div`
-margin-bottom: 24px;
+  margin-bottom: 24px;
 `;
 
 const ContatoLista = styled.ul`
@@ -24,21 +24,12 @@ const ContatoLista = styled.ul`
   margin: 0;
 `;
 
-
 function ListaDeContatos() {
   const [contatosAgrupados, setContatosAgrupados] = useState({});
-
-  const contatosIniciais = [
-    {
-      "nome": "moni",
-      "telefone": "21321312",
-      "imagem": "https://pbs.twimg.com/profile_images/1872657693854330880/_QrIcSM__400x400.jpg",
-      "_id": 1
-    }
-  ]
+  const { contacts } = useContacts();
 
   useEffect(() => {
-    const agrupados = contatosIniciais.reduce((acumulador, contato) => {
+    const agrupados = contacts.reduce((acumulador, contato) => {
       const primeiraLetra = contato.nome[0].toUpperCase();
       if (!acumulador[primeiraLetra]) acumulador[primeiraLetra] = [];
       acumulador[primeiraLetra].push(contato);
@@ -55,7 +46,7 @@ function ListaDeContatos() {
       }, {});
 
     setContatosAgrupados(agrupadosOrdenados);
-  }, []);
+  }, [contacts]);
 
   return (
     <ContatosWrapper>
