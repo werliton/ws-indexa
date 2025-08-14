@@ -16,6 +16,10 @@ export function useContacts() {
     await apiContatos.criar(contact);
   };
 
+  const updateContact = async (contact) => {
+    await apiContatos.atualizar(contact.id, contact);
+  };
+
   useEffect(() => {
     fetchContacts();
   }, []);
@@ -24,5 +28,6 @@ export function useContacts() {
     fetchContacts,
     contacts,
     createContact,
+    updateContact,
   };
 }
