@@ -20,14 +20,27 @@ export function useContacts() {
     await apiContatos.atualizar(contact.id, contact);
   };
 
+  const deleteContact = async (id) => {
+    try {
+      const deleted = await apiContatos.deletar(id);
+
+      if (deleted) {
+        setContacts((prev) => prev.filter((item) => item.id !== id));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchContacts();
   }, []);
 
   return {
-    fetchContacts,
     contacts,
+    fetchContacts,
     createContact,
     updateContact,
+    deleteContact,
   };
 }

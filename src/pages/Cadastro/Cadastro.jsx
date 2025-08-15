@@ -31,10 +31,12 @@ function Cadastro() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    createContact(dadosDoFormulario);
-
-    console.log("Formulário enviado!");
-    navigate("/");
+    createContact(dadosDoFormulario)
+      .then(() => {
+        console.log("Formulário enviado!");
+        navigate("/");
+      })
+      .catch((error) => console.error("Erro ao criar contato:", error));
   };
 
   return (

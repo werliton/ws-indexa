@@ -26,7 +26,7 @@ const ContatoLista = styled.ul`
 
 function ListaDeContatos() {
   const [contatosAgrupados, setContatosAgrupados] = useState({});
-  const { contacts } = useContacts();
+  const { contacts, deleteContact } = useContacts();
 
   useEffect(() => {
     const agrupados = contacts.reduce((acumulador, contato) => {
@@ -48,6 +48,18 @@ function ListaDeContatos() {
     setContatosAgrupados(agrupadosOrdenados);
   }, [contacts]);
 
+  const handleDeleteContact = (id) => {
+    const isDeleted = window.confirm("Deseja realmente deletar?");
+
+    if (!isDeleted) return;
+
+    deleteContact(id)
+      .then(() => {
+        console.info("deletado com sucesso", id);
+      })
+      .catch((error) => console.error("Erro ao deletar contato", error));
+  };
+
   return (
     <ContatosWrapper>
       {Object.keys(contatosAgrupados).length > 0 ? (
@@ -62,6 +74,7 @@ function ListaDeContatos() {
                   nome={contato.nome}
                   telefone={contato.telefone}
                   imagem={contato.imagem}
+                  onDelete={() => handleDeleteContact(contato.id)}
                 />
               ))}
             </ContatoLista>

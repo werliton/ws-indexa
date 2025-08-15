@@ -41,10 +41,12 @@ function EditarContato() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    updateContact(dadosDoFormulario);
-
-    console.log("Formulário enviado!");
-    navigate("/");
+    updateContact(dadosDoFormulario)
+      .then(() => {
+        console.log("Formulário enviado!");
+        navigate("/");
+      })
+      .catch((error) => console.error("Erro ao atualizar contato:", error));
   };
 
   return (

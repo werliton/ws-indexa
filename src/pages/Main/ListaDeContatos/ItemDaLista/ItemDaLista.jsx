@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import editIcon from "../../../../assets/pencil-square.svg";
 import deleteIcon from "../../../../assets/trash.svg";
@@ -57,13 +56,12 @@ const BotaoBase = styled.button`
 `;
 
 const BotaoEditar = styled(NavLink)`
-  ${BotaoBase} 
+  ${BotaoBase}
 `;
 
 const BotaoExcluir = styled(BotaoBase)``;
 
-function ItemDaLista({ id, nome, telefone, imagem }) {
-
+function ItemDaLista({ id, nome, telefone, imagem, onDelete }) {
   return (
     <ListItem>
       <Perfil>
@@ -77,7 +75,7 @@ function ItemDaLista({ id, nome, telefone, imagem }) {
         <BotaoEditar to={`/editar/${id}`}>
           <img src={editIcon} alt="Editar" />
         </BotaoEditar>
-        <BotaoExcluir >
+        <BotaoExcluir onClick={onDelete}>
           <img src={deleteIcon} alt="Excluir" />
         </BotaoExcluir>
       </Icones>
