@@ -17,10 +17,27 @@ export function useContacts() {
   };
 
   const updateContact = async (contact) => {
-    await apiContatos.atualizar(contact.id, contact);
+    const originalContacts = [...contacts];
+    // Aplicando Atualizacao otimista
+    const foundContact = contacts.map((item) =>
+      item.id == contact.id ? contact : item
+    );
+
+    setContacts(foundContact);
+
+    return apiContatos.atualizar(contact.id, contact).catch((error) => {
+      console.error("Erro ao atualizar contato:", error);
+      setContacts(originalContacts);
+    });
   };
 
   const deleteContact = async (id) => {
+    const originalContacts = [...contacts];
+    // Aplicando Atualizacao otimista
+    const foundContact = contacts.filter((item) => item.id != id);
+
+    setContacts(foundContact);
+
     try {
       const deleted = await apiContatos.deletar(id);
 
@@ -29,6 +46,7 @@ export function useContacts() {
       }
     } catch (error) {
       console.error(error);
+      setContacts(originalContacts);
     }
   };
 
