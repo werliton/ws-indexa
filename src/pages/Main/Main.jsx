@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import BarraDePesquisa from "./BarraDePesquisa/BarraDePesquisa";
@@ -7,6 +6,8 @@ import ListaDeContatos from "./ListaDeContatos/ListaDeContatos";
 import contact from "../../assets/contacts.png";
 import Wrapper from "../../components/Wrapper/Wrapper";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { searchState } from "../../atoms/contactsState";
 
 const ImagemContato = styled.img`
   width: 250px;
@@ -30,35 +31,43 @@ const Titulo = styled.h1`
 `;
 
 const MainContainer = styled.main`
-display: flex;
+  display: flex;
   flex-direction: column;
 
   gap: 40px;
 
   min-width: 416px;
-`
-
-
+`;
 
 function Main() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
+  const [, setSearch] = useRecoilState(searchState);
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+
+    setSearch(value);
+  };
 
   return (
     <Wrapper>
       <Header />
       <MainContainer>
-        <ImagemContato src={contact} alt="Contatos" className="imagem-contato" />
+        <ImagemContato
+          src={contact}
+          alt="Contatos"
+          className="imagem-contato"
+        />
         <Titulo>
-          Organize, <span className="titulo-destaque">conecte,</span> simplifique!
+          Organize, <span className="titulo-destaque">conecte,</span>{" "}
+          simplifique!
         </Titulo>
 
-
-        <BarraDePesquisa onSearch={(e) => setSearch(e.target.value)} />
+        <BarraDePesquisa onSearch={handleSearch} />
 
         <BotaoAdicionar onClick={() => navigate("/cadastro")} />
 
-        <ListaDeContatos  />
+        <ListaDeContatos />
       </MainContainer>
     </Wrapper>
   );

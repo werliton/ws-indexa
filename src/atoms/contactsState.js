@@ -5,4 +5,11 @@ const contactsState = atom({
   default: [],
 });
 
+const searchState = atom({
+  key: "searchState",
+  default: "",
+});
+
+export { searchState };
+
 export default contactsState;

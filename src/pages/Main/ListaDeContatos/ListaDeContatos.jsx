@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import ItemDaLista from "./ItemDaLista/ItemDaLista";
 import styled from "styled-components";
 import { useContacts } from "../../../hooks/useContacts";
+import { useRecoilValue } from "recoil";
+import getContactSelector from "../../../selectors/contactSelector";
+import { searchState } from "../../../atoms/contactsState";
 
 const ContatoTitulo = styled.h2`
   border-bottom: 1px solid #0d6efd;
@@ -26,10 +29,15 @@ const ContatoLista = styled.ul`
 
 function ListaDeContatos() {
   const [contatosAgrupados, setContatosAgrupados] = useState({});
-  const { contacts, deleteContact } = useContacts();
+  const { deleteContact } = useContacts();
+
+  const filteredContacts = useRecoilValue(getContactSelector);
+  const searchTerm = useRecoilValue(searchState);
+
+  const initialContacts = filteredContacts;
 
   useEffect(() => {
-    const agrupados = contacts.reduce((acumulador, contato) => {
+    const agrupados = initialContacts.reduce((acumulador, contato) => {
       const primeiraLetra = contato.nome[0].toUpperCase();
       if (!acumulador[primeiraLetra]) acumulador[primeiraLetra] = [];
       acumulador[primeiraLetra].push(contato);
@@ -46,7 +54,7 @@ function ListaDeContatos() {
       }, {});
 
     setContatosAgrupados(agrupadosOrdenados);
-  }, [contacts]);
+  }, [initialContacts, searchTerm]);
 
   const handleDeleteContact = (id) => {
     const isDeleted = window.confirm("Deseja realmente deletar?");
